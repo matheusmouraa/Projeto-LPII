@@ -2,18 +2,20 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Sistema {
+  //Supermercado e Sacanner estático que todos os métodos irão usar
   private static SuperMercado superMercado;
   private static Scanner scanner = new Scanner(System.in);
 
+  //instância o Supermercado
   public static void criarSuperMercado() {
     System.out.println("\n=== CRIAR NOVO SUPER MERCADO ===");
     System.out.print("Nome do Super Mercado: ");
     String nome = scanner.nextLine();
 
     System.out.print("CNPJ: ");
-    String cnpj = scanner.nextLine();
+    String CNPJ = scanner.nextLine();
 
-    superMercado = new SuperMercado(nome, cnpj);
+    superMercado = new SuperMercado(nome, CNPJ);
     System.out.println("\nSuper Mercado criado com sucesso!");
   }
 

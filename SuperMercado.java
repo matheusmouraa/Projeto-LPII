@@ -9,31 +9,35 @@ public class SuperMercado {
   private HashSet<Funcionario> funcionarios;
   private HashSet<Promocao> promocoes;
 
-  public SuperMercado(String nome, String CNPJ) {
-    this.nome = nome;
-    this.CNPJ = CNPJ;
+  public SuperMercado(String _nome, String _CNPJ) {
+    this.nome = _nome;
+    this.CNPJ = _CNPJ;
     this.produtos = new ArrayList<>();
     this.fornecedores = new HashSet<>();
     this.funcionarios = new HashSet<>();
     this.promocoes = new HashSet<>();
   }
 
+  //Métodos
+
+  //Gets e Sets de Nome e CNPJ
   public String getNome() {
-    return nome;
+    return this.nome;
   }
 
   public String getCNPJ() {
-    return CNPJ;
+    return this.CNPJ;
   }
 
-  public void setNome(String nome) {
-    this.nome = nome;
+  public void setNome(String _nome) {
+    this.nome = _nome;
   }
 
-  public void setCNPJ(String CNPJ) {
-    this.CNPJ = CNPJ;
+  public void setCNPJ(String _CNPJ) {
+    this.CNPJ = _CNPJ;
   }
 
+  //Produtos
   public void addProduto(Produto produto) {
     this.produtos.add(produto);
   }
@@ -46,18 +50,7 @@ public class SuperMercado {
     return this.produtos;
   }
 
-  public HashSet<Fornecedor> getFornecedores() {
-    return this.fornecedores;
-  }
-
-  public HashSet<Funcionario> getFuncionarios() {
-    return this.funcionarios;
-  }
-
-  public HashSet<Promocao> getPromocoes() {
-    return this.promocoes;
-  }
-
+  //Fornecedores
   public void addFornecedor(Fornecedor fornecedor) {
     this.fornecedores.add(fornecedor);
   }
@@ -66,6 +59,11 @@ public class SuperMercado {
     this.fornecedores.remove(fornecedor);
   }
 
+  public HashSet<Fornecedor> getFornecedores() {
+    return this.fornecedores;
+  }
+
+  //Funcionarios
   public void addFuncionario(Funcionario funcionario) {
     this.funcionarios.add(funcionario);
   }
@@ -74,6 +72,11 @@ public class SuperMercado {
     this.funcionarios.remove(funcionario);
   }
 
+  public HashSet<Funcionario> getFuncionarios() {
+    return this.funcionarios;
+  }
+
+  //Promoções
   public void addPromocao(Promocao promocao) {
     this.promocoes.add(promocao);
   }
@@ -82,6 +85,11 @@ public class SuperMercado {
     this.promocoes.remove(promocao);
   }
 
+  public HashSet<Promocao> getPromocoes() {
+    return this.promocoes;
+  }
+
+  //talvez retirar !!!!!!!!!
   public Produto procurarProduto(String ID) {
     for (Produto produto : produtos) {
       if (produto.getID().equals(ID)) {
@@ -90,5 +98,4 @@ public class SuperMercado {
     }
     return null;
   }
-
 }
