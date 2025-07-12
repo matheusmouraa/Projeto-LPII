@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Sistema {
@@ -6,25 +7,33 @@ public class Sistema {
   private static SuperMercado superMercado;
   private static Scanner scanner = new Scanner(System.in);
 
-  //instância o Supermercado
+  //instanciar o Supermercado
   public static void criarSuperMercado() {
-    System.out.println("\n=== CRIAR NOVO SUPER MERCADO ===");
-    System.out.print("Nome do Super Mercado: ");
+    System.out.println("\n== CRIAR SUPER MERCADO ==");
+    //Lendo nome
+    System.out.print("Nome : ");
     String nome = scanner.nextLine();
 
+    //Lendo CNPJ
     System.out.print("CNPJ: ");
     String CNPJ = scanner.nextLine();
 
+    //Instânciando o Super Mercado
     superMercado = new SuperMercado(nome, CNPJ);
-    System.out.println("\nSuper Mercado criado com sucesso!");
+    System.out.println("\nSuper Mercado criado");
   }
 
+  //Adicionar Produto
   public static void addProduto() {
+    //Verificando se o Supermercado foi instanciado
     if (superMercado == null) {
       System.out.println("\nErro: Crie um Super Mercado primeiro!");
       return;
     }
 
+    //Verificando se o Supermercado tem o fornecedor (Adicionar dentro do if)
+
+    //Lendo entradas do Produto
     System.out.println("\n=== ADICIONAR PRODUTO ===");
     System.out.println("Tipo de produto:");
     System.out.println("1 - Perecível");
@@ -45,6 +54,7 @@ public class Sistema {
     try {
       Produto produto;
       switch (tipo) {
+        //Produto Perecível
         case 1:
           System.out.print("Data de validade (AAAA-MM-DD): ");
           LocalDate dataValidade = LocalDate.parse(scanner.nextLine());
@@ -54,7 +64,7 @@ public class Sistema {
 
           produto = new ProdutoPerecivel(nome, id, preco, dataValidade, refrigeracao);
           break;
-
+        //Produto Eletrônico
         case 2:
           System.out.print("Meses de garantia: ");
           int garantia = Integer.parseInt(scanner.nextLine());
@@ -64,7 +74,7 @@ public class Sistema {
 
           produto = new ProdutoEletronico(nome, id, preco, garantia, tensao);
           break;
-
+        //Bebida
         case 3:
           System.out.print("Volume em litros: ");
           double litros = Double.parseDouble(scanner.nextLine());
@@ -74,12 +84,15 @@ public class Sistema {
 
           produto = new ProdutoBebida(nome, id, preco, litros, alcoolica);
           break;
-
+        //Nenhum tipo encontrado
         default:
           throw new IllegalArgumentException("Tipo inválido");
       }
 
+      //Adicionando o produto ao Supermercado
       superMercado.addProduto(produto);
+      //Adicionando produto ao fornecedor (Implementar)
+
       System.out.println("\nProduto adicionado com sucesso!");
     } catch (Exception e) {
       System.out.println("\nErro ao adicionar produto: " + e.getMessage());
