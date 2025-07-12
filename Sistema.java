@@ -192,31 +192,32 @@ public class Sistema {
     //Verifica se o Supermercado foi instanciado
     if (superMercado == null){
       System.out.println("\nErro: Crie um Super Mercado primeiro!");
+      return;
     }
     //Verifica se tem produtos no estoque
     else if (superMercado.getProdutos().isEmpty()) {
       System.out.println("Nenhum produto cadastrado.");
+      return;
     }
-    else {
-      //Removendo o produto
-      System.out.println("\n=== REMOVER PRODUTO ===");
 
-      //Lendo id
-      System.out.print("Digite o ID do produto a ser removido: ");
-      String id = scanner.nextLine();
+    //Removendo o produto
+    System.out.println("\n=== REMOVER PRODUTO ===");
 
-      //Percorre o ArrayList de produtos procurando pelo produto
-      for (Produto produto : superMercado.getProdutos()) {
-        //Encontra o produto pelo ID
-        if (produto.getID().equals(id)) {
-          //Remove o produto
-          superMercado.removeProduto(produto);
-          System.out.println("\nProduto removido com sucesso");
-          return;
-        }
+    //Lendo id
+    System.out.print("Digite o ID do produto a ser removido: ");
+    String id = scanner.nextLine();
+
+    //Percorre o ArrayList de produtos procurando pelo produto
+    for (Produto produto : superMercado.getProdutos()) {
+      //Compara o produto pelo ID
+      if (produto.getID().equals(id)) {
+        //Remove o produto
+        superMercado.removeProduto(produto);
+        System.out.println("\nProduto removido com sucesso");
+        return;
       }
-      System.out.println("Produto não encontrado");
     }
+    System.out.println("Produto não encontrado");
   }
 
   public static void removerFornecedor() {
