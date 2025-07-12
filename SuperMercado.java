@@ -89,13 +89,4 @@ public class SuperMercado {
     return this.promocoes;
   }
 
-  //talvez retirar !!!!!!!!!
-  public Produto procurarProduto(String ID) {
-    for (Produto produto : produtos) {
-      if (produto.getID().equals(ID)) {
-        return produto;
-      }
-    }
-    return null;
-  }
 }
