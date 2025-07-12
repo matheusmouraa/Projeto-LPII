@@ -10,6 +10,7 @@ public class Main {
       System.out.println("Opções: ");
       System.out.println("1 - Criar Supermercado");
       System.out.println("2 - Adicionar Produto");
+      System.out.println("3 - Exibir Estoque");
       System.out.println("0 - Sair");
 
       opcao = entrada.nextInt();
@@ -19,7 +20,10 @@ public class Main {
           Sistema.criarSuperMercado();
           break;
         case 2:
-            Sistema.addProduto();
+          Sistema.addProduto();
+          break;
+        case 3:
+          Sistema.exibirEstoque();
           break;
         case 0:
           System.out.println("Sair");

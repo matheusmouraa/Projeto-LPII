@@ -9,7 +9,15 @@ public class Sistema {
 
   //instanciar o Supermercado
   public static void criarSuperMercado() {
+    //Verifica se o Supermercado já foi cadastrado
+    if(superMercado != null){
+      System.out.println("erro: Supermercado já cadastrado");
+      return;
+    }
+
+    //Lê entradas
     System.out.println("\n== CRIAR SUPER MERCADO ==");
+
     //Lendo nome
     System.out.print("Nome : ");
     String nome = scanner.nextLine();
@@ -240,12 +248,20 @@ public class Sistema {
   }
 
   public static void exibirEstoque() {
-    System.out.println("\n=== ESTOQUE ===");
-    if (superMercado.getProdutos().isEmpty()) {
+    //Verifica se o Supermercado foi instanciado
+    if (superMercado == null){
+      System.out.println("\nErro: Crie um Super Mercado primeiro!");
+    }
+    //Verifica se tem produtos no estoque
+    else if (superMercado.getProdutos().isEmpty()) {
       System.out.println("Nenhum produto cadastrado.");
-    } else {
-      for (Produto p : superMercado.getProdutos()) {
-        System.out.println(p.getNome() + " - ID: " + p.getID() + " - Preço: R$" + p.getPreco());
+    }
+    else {
+      System.out.println("\n=== ESTOQUE ===");
+      //Percorre o ArrayList de produtos exibindo suas informações
+      for (Produto produto : superMercado.getProdutos()) {
+        produto.ExibirProduto();
+        System.out.println("---------------");
       }
     }
   }

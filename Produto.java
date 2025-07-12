@@ -39,6 +39,14 @@ public class Produto {
     this.preco = _preco;
   }
 
+  //Exibir Informações do Produto
+  public void ExibirProduto(){
+    System.out.println("Nome: " + this.nome);
+    System.out.println("ID: " + this.ID);
+    System.out.println("Preço: " + this.preco);
+    System.out.println("nome do fornecedor");
+  }
+
   //Fornecedor
   public void addFornecedor(Fornecedor fornecedor) {
     this.fornecedores.add(fornecedor);
