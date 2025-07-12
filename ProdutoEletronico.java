@@ -8,19 +8,27 @@ public class ProdutoEletronico extends Produto {
     this.tensao = tensao;
   }
 
+  //Gets e Sets
   public int getGarantiaMeses() {
-    return garantiaMeses;
+    return this.garantiaMeses;
+  }
+
+  public void setGarantiaMeses(int _meses) {
+    this.garantiaMeses = _meses;
   }
 
   public String getTensao() {
-    return tensao;
+    return this.tensao;
   }
 
-  public void setGarantiaMeses(int meses) {
-    this.garantiaMeses = meses;
+  public void setTensao(String _tensao) {
+    this.tensao = _tensao;
   }
 
-  public void setTensao(String tensao) {
-    this.tensao = tensao;
+  //Exibi as informações da classe produtos e Bebidas
+  public void ExibirProduto(){
+    super.ExibirProduto();
+    System.out.println("Garantia: " + garantiaMeses + " meses");
+    System.out.println("Tensão: " + tensao + "V");
   }
 }

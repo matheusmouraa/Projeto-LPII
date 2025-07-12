@@ -1,6 +1,6 @@
 import java.util.HashSet;
 
-public class Produto {
+public abstract class Produto {
   private String nome;
   private String ID;
   private double preco;
@@ -44,7 +44,7 @@ public class Produto {
     System.out.println("Nome: " + this.nome);
     System.out.println("ID: " + this.ID);
     System.out.println("Preço: " + this.preco);
-    System.out.println("Fornecedores: ");
+    System.out.print("Fornecedores: ");
     for (Fornecedor fornecedor : fornecedores) {
       System.out.print(fornecedor.getNome() + " ");
     }

@@ -8,19 +8,27 @@ public class ProdutoBebida extends Produto {
     this.alcoolica = alcoolica;
   }
 
+  //Gets e Sets
   public double getLitros() {
-    return litros;
+    return this.litros;
   }
 
-  public boolean isAlcoolica() {
-    return alcoolica;
+  public void setLitros(double _litros) {
+    this.litros = _litros;
   }
 
-  public void setLitros(double litros) {
-    this.litros = litros;
+  public boolean getAlcoolica() {
+    return this.alcoolica;
   }
 
-  public void setAlcoolica(boolean alcoolica) {
-    this.alcoolica = alcoolica;
+  public void setAlcoolica(boolean _alcoolica) {
+    this.alcoolica = _alcoolica;
+  }
+
+  //Exibi as informações da classe produtos e Bebidas
+  public void ExibirProduto(){
+    super.ExibirProduto();
+    System.out.println("Litros: " + litros + "L");
+    System.out.println("É alcoólica?: " + alcoolica);
   }
 }
