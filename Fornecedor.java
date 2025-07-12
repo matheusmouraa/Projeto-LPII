@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Fornecedor {
   private String nome;
@@ -9,6 +10,7 @@ public class Fornecedor {
     this.nome = nome;
     this.endereco = endereco;
     this.produtos = new HashSet<>();
+    //Inicializar endereço (Implementar)
   }
 
   public String getNome() {
@@ -37,5 +39,25 @@ public class Fornecedor {
 
   public void removeProduto(Produto produto) {
     this.produtos.remove(produto);
+  }
+
+  //HashSet
+  public boolean equals(Object obj){
+
+    if(this == obj){
+      return true;
+    }
+
+    if (!(obj instanceof Fornecedor)){
+      return true;
+    }
+
+    Fornecedor outro = (Fornecedor) obj;
+
+    return Objects.equals(this.nome, outro.nome);
+  }
+
+  public int hashCode(){
+    return Objects.hash(this.nome);
   }
 }

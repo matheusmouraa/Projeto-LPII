@@ -44,7 +44,11 @@ public class Produto {
     System.out.println("Nome: " + this.nome);
     System.out.println("ID: " + this.ID);
     System.out.println("Preço: " + this.preco);
-    System.out.println("nome do fornecedor");
+    System.out.println("Fornecedores: ");
+    for (Fornecedor fornecedor : fornecedores) {
+      System.out.print(fornecedor.getNome() + " ");
+    }
+    System.out.println();
   }
 
   //Fornecedor
@@ -54,5 +58,9 @@ public class Produto {
 
   public void removeFornecedor(Fornecedor fornecedor) {
     this.fornecedores.remove(fornecedor);
+  }
+
+  public HashSet<Fornecedor> getFornecedores(){
+    return this.fornecedores;
   }
 }

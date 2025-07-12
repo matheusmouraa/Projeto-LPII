@@ -35,11 +35,14 @@ public class Sistema {
   public static void addProduto() {
     //Verificando se o Supermercado foi instanciado
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro!");
+      System.out.println("\nErro: Crie um Super Mercado primeiro");
       return;
     }
-
-    //Verificando se o Supermercado tem o fornecedor (Adicionar dentro do if)
+    //Verificando se o Supermercado tem um fornecedor
+    else if(superMercado.getFornecedores().isEmpty()){
+      System.out.println("\nErro: Adicione um fornecedor primeio");
+      return;
+    }
 
     //Lendo entradas do Produto
     System.out.println("\n=== ADICIONAR PRODUTO ===");
@@ -58,6 +61,9 @@ public class Sistema {
 
     System.out.print("Preço: ");
     double preco = Double.parseDouble(scanner.nextLine());
+
+    System.out.print("Fornecedor: ");
+    String fornecedor_nome = scanner.nextLine();
 
     try {
       Produto produto;
@@ -97,9 +103,29 @@ public class Sistema {
           throw new IllegalArgumentException("Tipo inválido");
       }
 
+      //Adicionando fornecedor ao produto
+      //Verifica se o fornecedor foi adicionado
+      boolean fornecedorAdicionado = false;
+      //Percorre o HashSet fornecedores de Supermercado
+      for (Fornecedor fornecedor : superMercado.getFornecedores()) {
+        //Compara pelo nome
+        if (fornecedor.getNome().equals(fornecedor_nome)) {
+          //Adiciona o fornecedor ao produto
+          produto.addFornecedor(fornecedor);
+          fornecedorAdicionado = true;
+        }
+      }
+
+      //Verifica se o fornecedor foi adicionado
+      if(!fornecedorAdicionado){
+        System.out.println("Fornecedor não encontrado");
+        return;
+      }
+
+      //Adicionar Produto a fornecedor (implementar quando ajeitar a classe fornecedor)
+
       //Adicionando o produto ao Supermercado
       superMercado.addProduto(produto);
-      //Adicionando produto ao fornecedor (Implementar)
 
       System.out.println("\nProduto adicionado com sucesso!");
     } catch (Exception e) {
