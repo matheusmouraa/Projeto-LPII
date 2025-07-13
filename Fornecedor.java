@@ -10,7 +10,6 @@ public class Fornecedor {
     this.nome = nome;
     this.endereco = endereco;
     this.produtos = new HashSet<>();
-    //Inicializar endereço (Implementar)
   }
 
   public String getNome() {
@@ -41,14 +40,14 @@ public class Fornecedor {
     this.produtos.remove(produto);
   }
 
-  //HashSet
-  public boolean equals(Object obj){
+  // HashSet
+  public boolean equals(Object obj) {
 
-    if(this == obj){
+    if (this == obj) {
       return true;
     }
 
-    if (!(obj instanceof Fornecedor)){
+    if (!(obj instanceof Fornecedor)) {
       return true;
     }
 
@@ -57,7 +56,7 @@ public class Fornecedor {
     return Objects.equals(this.nome, outro.nome);
   }
 
-  public int hashCode(){
+  public int hashCode() {
     return Objects.hash(this.nome);
   }
 }

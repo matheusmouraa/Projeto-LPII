@@ -32,4 +32,11 @@ public class Promocao {
   public void setPorcentagem(int porcentagem) {
     this.porcentagem = porcentagem;
   }
+
+  public void exibirInformacoes() {
+    System.out.println("\n=== INFORMAÇÕES DA PROMOÇÃO ===");
+    System.out.println("Tipo: " + this.getTipo());
+    System.out.println("Porcentagem de desconto: " + this.getPorcentagem() + "%");
+    System.out.println("Ativa: " + (this.getAtivo() ? "Sim" : "Não"));
+  }
 }

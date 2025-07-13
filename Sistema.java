@@ -3,48 +3,48 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Sistema {
-  //Supermercado e Sacanner estático que todos os métodos irão usar
+  // Supermercado e Sacanner estático que todos os métodos irão usar
   private static SuperMercado superMercado;
   private static Scanner scanner = new Scanner(System.in);
 
-  //instanciar o Supermercado
+  // instanciar o Supermercado
   public static void criarSuperMercado() {
-    //Verifica se o Supermercado já foi cadastrado
-    if(superMercado != null){
+    // Verifica se o Supermercado já foi cadastrado
+    if (superMercado != null) {
       System.out.println("erro: Supermercado já cadastrado");
       return;
     }
 
-    //Lê entradas
+    // Lê entradas
     System.out.println("\n== CRIAR SUPER MERCADO ==");
 
-    //Lendo nome
+    // Lendo nome
     System.out.print("Nome : ");
     String nome = scanner.nextLine();
 
-    //Lendo CNPJ
+    // Lendo CNPJ
     System.out.print("CNPJ: ");
     String CNPJ = scanner.nextLine();
 
-    //Instânciando o Super Mercado
+    // Instânciando o Super Mercado
     superMercado = new SuperMercado(nome, CNPJ);
     System.out.println("\nSuper Mercado criado");
   }
 
-  //Adicionar Produto
+  // Adicionar Produto
   public static void addProduto() {
-    //Verificando se o Supermercado foi instanciado
+    // Verificando se o Supermercado foi instanciado
     if (superMercado == null) {
       System.out.println("\nErro: Crie um Super Mercado primeiro");
       return;
     }
-    //Verificando se o Supermercado tem um fornecedor
-    else if(superMercado.getFornecedores().isEmpty()){
+    // Verificando se o Supermercado tem um fornecedor
+    else if (superMercado.getFornecedores().isEmpty()) {
       System.out.println("\nErro: Adicione um fornecedor primeio");
       return;
     }
 
-    //Lendo entradas do Produto
+    // Lendo entradas do Produto
     System.out.println("\n=== ADICIONAR PRODUTO ===");
     System.out.println("Tipo de produto:");
     System.out.println("1 - Perecível");
@@ -68,7 +68,7 @@ public class Sistema {
     try {
       Produto produto;
       switch (tipo) {
-        //Produto Perecível
+        // Produto Perecível
         case 1:
           System.out.print("Data de validade (AAAA-MM-DD): ");
           LocalDate dataValidade = LocalDate.parse(scanner.nextLine());
@@ -78,7 +78,7 @@ public class Sistema {
 
           produto = new ProdutoPerecivel(nome, id, preco, dataValidade, refrigeracao);
           break;
-        //Produto Eletrônico
+        // Produto Eletrônico
         case 2:
           System.out.print("Meses de garantia: ");
           int garantia = Integer.parseInt(scanner.nextLine());
@@ -88,7 +88,7 @@ public class Sistema {
 
           produto = new ProdutoEletronico(nome, id, preco, garantia, tensao);
           break;
-        //Bebida
+        // Bebida
         case 3:
           System.out.print("Volume em litros: ");
           double litros = Double.parseDouble(scanner.nextLine());
@@ -98,33 +98,40 @@ public class Sistema {
 
           produto = new ProdutoBebida(nome, id, preco, litros, alcoolica);
           break;
-        //Nenhum tipo encontrado
+        // Nenhum tipo encontrado
         default:
           throw new IllegalArgumentException("Tipo inválido");
       }
 
-      //Adicionando fornecedor ao produto
-      //Verifica se o fornecedor foi adicionado
+      // Adicionando fornecedor ao produto
+      // Verifica se o fornecedor foi adicionado
       boolean fornecedorAdicionado = false;
-      //Percorre o HashSet fornecedores de Supermercado
+      // Percorre o HashSet fornecedores de Supermercado
       for (Fornecedor fornecedor : superMercado.getFornecedores()) {
-        //Compara pelo nome
+        // Compara pelo nome
         if (fornecedor.getNome().equals(fornecedor_nome)) {
-          //Adiciona o fornecedor ao produto
+          // Adiciona o fornecedor ao produto
           produto.addFornecedor(fornecedor);
           fornecedorAdicionado = true;
         }
       }
 
-      //Verifica se o fornecedor foi adicionado
-      if(!fornecedorAdicionado){
+      // Verifica se o fornecedor foi adicionado
+      if (!fornecedorAdicionado) {
         System.out.println("Fornecedor não encontrado");
         return;
       }
 
-      //Adicionar Produto a fornecedor (implementar quando ajeitar a classe fornecedor)
+      // Verifica se o fornecedor foi adicionado
+      for (Fornecedor fornecedor : superMercado.getFornecedores()) {
+        // Compara pelo nome
+        if (fornecedor.getNome().equals(fornecedor_nome)) {
+          // Adiciona o fornecedor ao produto
+          fornecedor.addProduto(produto);
+        }
+      }
 
-      //Adicionando o produto ao Supermercado
+      // Adicionando o produto ao Supermercado
       superMercado.addProduto(produto);
 
       System.out.println("\nProduto adicionado com sucesso!");
@@ -215,35 +222,71 @@ public class Sistema {
   }
 
   public static void removerProduto() {
-    //Verifica se o Supermercado foi instanciado
-    if (superMercado == null){
+    // Verifica se o Supermercado foi instanciado
+    if (superMercado == null) {
       System.out.println("\nErro: Crie um Super Mercado primeiro!");
       return;
     }
-    //Verifica se tem produtos no estoque
+
+    // Verifica se tem produtos no estoque
     else if (superMercado.getProdutos().isEmpty()) {
       System.out.println("Nenhum produto cadastrado.");
       return;
     }
 
-    //Removendo o produto
+    // Removendo o produto
     System.out.println("\n=== REMOVER PRODUTO ===");
 
-    //Lendo id
+    // Lendo id
     System.out.print("Digite o ID do produto a ser removido: ");
     String id = scanner.nextLine();
 
-    //Percorre o ArrayList de produtos procurando pelo produto
+    // Percorre o ArrayList de produtos procurando pelo produto
     for (Produto produto : superMercado.getProdutos()) {
-      //Compara o produto pelo ID
+      // Compara o produto pelo ID
       if (produto.getID().equals(id)) {
-        //Remove o produto
+        // Remove o produto
         superMercado.removeProduto(produto);
         System.out.println("\nProduto removido com sucesso");
         return;
       }
     }
     System.out.println("Produto não encontrado");
+  }
+
+  public static void editarProdutosFornecedor() {
+    System.out.println("\n=== EDITAR FORNECEDOR ===");
+    System.out.print("Digite o nome do fornecedor a ser editado: ");
+    String nome = scanner.nextLine();
+
+    for (Fornecedor f : superMercado.getFornecedores()) {
+      if (f.getNome().equalsIgnoreCase(nome)) {
+        int lista = 1;
+        Produto produtoParaRemover = null;
+        for (Produto produto : f.getProdutos()) {
+          System.out.println(lista + " - " + produto.getNome());
+          lista++;
+        }
+        System.out.print("Digite o número do produto que deseja deletar do fornecedor: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        lista = 1;
+        for (Produto produto : f.getProdutos()) {
+          if (lista == id) {
+            produtoParaRemover = produto;
+            break;
+          }
+          lista++;
+        }
+        if (produtoParaRemover != null) {
+          f.getProdutos().remove(produtoParaRemover);
+          System.out.println("\nProduto removido com sucesso!");
+        } else {
+          System.out.println("\nProduto não encontrado!");
+        }
+        return;
+      }
+    }
+    System.out.println("\nFornecedor nao encontrado!");
   }
 
   public static void removerFornecedor() {
@@ -292,17 +335,16 @@ public class Sistema {
   }
 
   public static void exibirEstoque() {
-    //Verifica se o Supermercado foi instanciado
-    if (superMercado == null){
+    // Verifica se o Supermercado foi instanciado
+    if (superMercado == null) {
       System.out.println("\nErro: Crie um Super Mercado primeiro!");
     }
-    //Verifica se tem produtos no estoque
+    // Verifica se tem produtos no estoque
     else if (superMercado.getProdutos().isEmpty()) {
       System.out.println("Nenhum produto cadastrado.");
-    }
-    else {
+    } else {
       System.out.println("\n=== ESTOQUE ===");
-      //Percorre o ArrayList de produtos exibindo suas informações
+      // Percorre o ArrayList de produtos exibindo suas informações
       for (Produto produto : superMercado.getProdutos()) {
         produto.ExibirProduto();
         System.out.println("---------------");
@@ -338,29 +380,44 @@ public class Sistema {
       System.out.println("Nenhuma promoção cadastrada.");
     } else {
       for (Promocao p : superMercado.getPromocoes()) {
-        System.out.println(p.getTipo() + " - " + p.getPorcentagem() + "% - " +
-            (p.getAtivo() ? "Ativa" : "Inativa"));
+        p.exibirInformacoes();
       }
+    }
+  }
+
+  public static void ativarOuDesativarPromocao() {
+    System.out.println("\n=== ATIVAR OU DESATIVAR PROMOÇÃO ===");
+    System.out.print("Digite o tipo da promoção a ser ativada ou desativada: ");
+    int i = 0;
+    for (Promocao promocao : superMercado.getPromocoes()) {
+      System.out.println((i++) + " - " + promocao.getTipo());
+    }
+    String tipo = scanner.nextLine();
+    boolean encontrado = false;
+
+    for (Promocao p : superMercado.getPromocoes()) {
+      if (p.getTipo().equalsIgnoreCase(tipo)) {
+        p.setAtivo(!p.getAtivo());
+        System.out.println("\nPromoção " + (p.getAtivo() ? "ativada" : "desativada") + " com sucesso!");
+        encontrado = true;
+        return;
+      }
+    }
+    if (!encontrado) {
+      System.out.println("Promoção não encontrada!");
     }
   }
 
   public static void procurarProduto() {
     System.out.println("\n=== PROCURAR PRODUTO ===");
-    System.out.print("Digite o ID ou nome do produto: ");
-    String termo = scanner.nextLine();
-
-    System.out.println("\n=== RESULTADOS DA BUSCA ===");
-    boolean encontrado = false;
+    System.out.print("Digite o ID: ");
+    String id = scanner.nextLine();
 
     for (Produto p : superMercado.getProdutos()) {
-      if (p.getID().equalsIgnoreCase(termo) || p.getNome().toLowerCase().contains(termo.toLowerCase())) {
-        System.out.println(p.getNome() + " - ID: " + p.getID() + " - Preço: R$" + p.getPreco());
-        encontrado = true;
+      if (p.getID().contains(id)) {
+        p.ExibirProduto();
+        System.out.println("---------------");
       }
-    }
-
-    if (!encontrado) {
-      System.out.println("Nenhum produto encontrado com esse critério.");
     }
   }
 }
