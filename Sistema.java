@@ -2,6 +2,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import exceptions.DadosInvalidosException;
+import exceptions.ElementoNaoEncontradoException;
+import exceptions.OperacaoInvalidaException;
+
 public class Sistema {
   // Supermercado e Sacanner estático que todos os métodos irão usar
   private static SuperMercado superMercado;
@@ -140,10 +144,9 @@ public class Sistema {
     }
   }
 
-  public static void addFornecedor() {
+  public static void addFornecedor() throws OperacaoInvalidaException {
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro!");
-      return;
+      throw new OperacaoInvalidaException("Super Mercado não criado");
     }
 
     System.out.println("\n=== ADICIONAR FORNECEDOR ===");
@@ -163,15 +166,10 @@ public class Sistema {
     System.out.print("Cidade: ");
     String cidade = scanner.nextLine();
 
-    try {
-      Endereco endereco = new Endereco(cep, rua, cidade);
-      Fornecedor fornecedor = new Fornecedor(nome, endereco);
+    Endereco endereco = new Endereco(cep, rua, cidade);
+    Fornecedor fornecedor = new Fornecedor(nome, endereco);
 
-      superMercado.addFornecedor(fornecedor);
-      System.out.println("\nFornecedor adicionado com sucesso!");
-    } catch (Exception e) {
-      System.out.println("\nErro ao adicionar fornecedor: " + e.getMessage());
-    }
+    superMercado.addFornecedor(fornecedor);
   }
 
   public static void addFuncionario() {
