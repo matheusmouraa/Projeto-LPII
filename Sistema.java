@@ -274,6 +274,15 @@ public class Sistema {
   }
 
   public static void removerFornecedor() {
+    //Verifica se o Supermercado foi instanciado
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+    // Verificando se o Supermercado tem algum fornecedor
+    else if (superMercado.getFornecedores().isEmpty()) {
+      throw new MercadoExceptionChecked("Supermercado não tem fornecedores");
+    }
+
     System.out.println("\n=== REMOVER FORNECEDOR ===");
     System.out.print("Digite o nome do fornecedor a ser removido: ");
     String nome = scanner.nextLine();
