@@ -283,18 +283,45 @@ public class Sistema {
       throw new MercadoExceptionChecked("Supermercado não tem fornecedores");
     }
 
+    //Remover fornecedor
     System.out.println("\n=== REMOVER FORNECEDOR ===");
     System.out.print("Digite o nome do fornecedor a ser removido: ");
     String nome = scanner.nextLine();
 
+    Fornecedor fornecedor_busca = null;
+
+    //Busca pelo fornecedor informado
     for (Fornecedor f : superMercado.getFornecedores()) {
       if (f.getNome().equalsIgnoreCase(nome)) {
-        superMercado.removeFornecedor(f);
-        System.out.println("\nFornecedor removido com sucesso!");
-        return;
+        fornecedor_busca = f;
       }
     }
-    throw new MercadoExceptionChecked("\nFornecedor não encontrado!");
+
+    //Verifica se o fornecedor foi encontrado
+    if(fornecedor_busca == null){
+      throw new MercadoExceptionChecked("Fornecedor não encontrado");
+    }
+
+    //Busca pelo fornecedor nos produtos existentes
+    //Verifica se tem produtos no Supermercado
+    if(!(superMercado.getProdutos().isEmpty())) {
+      //Percorre o Array de produtos do Supermercado
+      for (Produto p : superMercado.getProdutos()) {
+        //Percorre os fornecedores do Produto
+        for (Fornecedor fornecedor : p.getFornecedores()) {
+          //Compara os fornecedores do produto pelo informado
+          if (fornecedor.getNome().equals(fornecedor_busca.getNome())) {
+            //Remove o fornecedor do produto
+            p.removeFornecedor(fornecedor);
+          }
+        }
+      }
+    }
+
+    //Remove o fornecedor de supermercado
+    superMercado.removeFornecedor(fornecedor_busca);
+
+    System.out.println("\nFornecedor removido com sucesso!");
   }
 
   public static void removerFuncionario() {
