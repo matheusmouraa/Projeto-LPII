@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Objects;
 
 public abstract class Produto {
   private String nome;
@@ -62,5 +63,25 @@ public abstract class Produto {
 
   public HashSet<Fornecedor> getFornecedores(){
     return this.fornecedores;
+  }
+
+  //HashSet
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
+    }
+
+    if (!(obj instanceof Produto)) {
+      return true;
+    }
+
+    Produto outro = (Produto) obj;
+
+    return Objects.equals(this.ID, outro.ID);
+  }
+
+  public int hashCode() {
+    return Objects.hash(this.ID);
   }
 }
