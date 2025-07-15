@@ -36,16 +36,14 @@ public class Sistema {
   }
 
   // Adicionar Produto
-  public static void addProduto() {
+  public static void addProduto() throws MercadoExceptionChecked{
     // Verificando se o Supermercado foi instanciado
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro");
-      return;
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
     }
     // Verificando se o Supermercado tem um fornecedor
     else if (superMercado.getFornecedores().isEmpty()) {
-      System.out.println("\nErro: Adicione um fornecedor primeio");
-      return;
+      throw new MercadoExceptionChecked("Adicione um fornecedor primeiro");
     }
 
     // Lendo entradas do Produto
