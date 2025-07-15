@@ -62,7 +62,6 @@ public class Sistema {
     System.out.print("Fornecedor: ");
     String fornecedor_nome = scanner.nextLine();
 
-
     Produto produto;
     switch (tipo) {
       // Produto Perecível
@@ -163,8 +162,7 @@ public class Sistema {
 
   public static void addFuncionario() {
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro!");
-      return;
+      throw new MercadoExceptionChecked("Super Mercado não criado");
     }
 
     System.out.println("\n=== ADICIONAR FUNCIONÁRIO ===");
@@ -239,6 +237,14 @@ public class Sistema {
   }
 
   public static void editarProdutosFornecedor() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
+    if (superMercado.getFornecedores().isEmpty()) {
+      throw new MercadoExceptionChecked("Nenhum fornecedor cadastrado");
+    }
+
     System.out.println("\n=== EDITAR FORNECEDOR ===");
     System.out.print("Digite o nome do fornecedor a ser editado: ");
     String nome = scanner.nextLine();
@@ -274,7 +280,7 @@ public class Sistema {
   }
 
   public static void removerFornecedor() {
-    //Verifica se o Supermercado foi instanciado
+    // Verifica se o Supermercado foi instanciado
     if (superMercado == null) {
       throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
     }
@@ -283,48 +289,56 @@ public class Sistema {
       throw new MercadoExceptionChecked("Supermercado não tem fornecedores");
     }
 
-    //Remover fornecedor
+    // Remover fornecedor
     System.out.println("\n=== REMOVER FORNECEDOR ===");
     System.out.print("Digite o nome do fornecedor a ser removido: ");
     String nome = scanner.nextLine();
 
     Fornecedor fornecedor_busca = null;
 
-    //Busca pelo fornecedor informado
+    // Busca pelo fornecedor informado
     for (Fornecedor f : superMercado.getFornecedores()) {
       if (f.getNome().equalsIgnoreCase(nome)) {
         fornecedor_busca = f;
       }
     }
 
-    //Verifica se o fornecedor foi encontrado
-    if(fornecedor_busca == null){
+    // Verifica se o fornecedor foi encontrado
+    if (fornecedor_busca == null) {
       throw new MercadoExceptionChecked("Fornecedor não encontrado");
     }
 
-    //Busca pelo fornecedor nos produtos existentes
-    //Verifica se tem produtos no Supermercado
-    if(!(superMercado.getProdutos().isEmpty())) {
-      //Percorre o Array de produtos do Supermercado
+    // Busca pelo fornecedor nos produtos existentes
+    // Verifica se tem produtos no Supermercado
+    if (!(superMercado.getProdutos().isEmpty())) {
+      // Percorre o Array de produtos do Supermercado
       for (Produto p : superMercado.getProdutos()) {
-        //Percorre os fornecedores do Produto
+        // Percorre os fornecedores do Produto
         for (Fornecedor fornecedor : p.getFornecedores()) {
-          //Compara os fornecedores do produto pelo informado
+          // Compara os fornecedores do produto pelo informado
           if (fornecedor.getNome().equals(fornecedor_busca.getNome())) {
-            //Remove o fornecedor do produto
+            // Remove o fornecedor do produto
             p.removeFornecedor(fornecedor);
           }
         }
       }
     }
 
-    //Remove o fornecedor de supermercado
+    // Remove o fornecedor de supermercado
     superMercado.removeFornecedor(fornecedor_busca);
 
     System.out.println("\nFornecedor removido com sucesso!");
   }
 
   public static void removerFuncionario() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
+    if (superMercado.getFuncionarios().isEmpty()) {
+      throw new MercadoExceptionChecked("Nenhum funcionário cadastrado");
+    }
+
     System.out.println("\n=== REMOVER FUNCIONÁRIO ===");
     System.out.print("Digite o nome do funcionário a ser removido: ");
     String nome = scanner.nextLine();
@@ -340,6 +354,14 @@ public class Sistema {
   }
 
   public static void removerPromocao() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
+    if (superMercado.getPromocoes().isEmpty()) {
+      throw new MercadoExceptionChecked("Nenhuma promoção cadastrada");
+    }
+
     System.out.println("\n=== REMOVER PROMOÇÃO ===");
     System.out.print("Digite o tipo da promoção a ser removida: ");
     String tipo = scanner.nextLine();
@@ -373,17 +395,29 @@ public class Sistema {
   }
 
   public static void exibirFornecedores() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
     System.out.println("\n=== FORNECEDORES ===");
     if (superMercado.getFornecedores().isEmpty()) {
       throw new MercadoExceptionChecked("Nenhum fornecedor cadastrado.");
     } else {
       for (Fornecedor f : superMercado.getFornecedores()) {
-        System.out.println(f.getNome());
+        System.out.println(f.getNome() + " - " + f.getEndereco().getCEP());
+        for (Produto p : f.getProdutos()) {
+          System.out.println("\t" + p.getNome());
+        }
+        System.out.println("---------------");
       }
     }
   }
 
   public static void exibirFuncionarios() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
     System.out.println("\n=== FUNCIONÁRIOS ===");
     if (superMercado.getFuncionarios().isEmpty()) {
       throw new MercadoExceptionChecked("Nenhum funcionário cadastrado.");
@@ -395,6 +429,10 @@ public class Sistema {
   }
 
   public static void exibirPromocoes() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
     System.out.println("\n=== PROMOÇÕES ===");
     if (superMercado.getPromocoes().isEmpty()) {
       throw new MercadoExceptionChecked("Nenhuma promoção cadastrada.");
@@ -406,6 +444,10 @@ public class Sistema {
   }
 
   public static void ativarOuDesativarPromocao() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
     System.out.println("\n=== ATIVAR OU DESATIVAR PROMOÇÃO ===");
     System.out.print("Digite o tipo da promoção a ser ativada ou desativada: ");
     int i = 0;
@@ -425,6 +467,14 @@ public class Sistema {
   }
 
   public static void procurarProduto() {
+    if (superMercado == null) {
+      throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
+    }
+
+    if (superMercado.getProdutos().isEmpty()) {
+      throw new MercadoExceptionChecked("Nenhum produto cadastrado.");
+    }
+
     System.out.println("\n=== PROCURAR PRODUTO ===");
     System.out.print("Digite o ID: ");
     String id = scanner.nextLine();
