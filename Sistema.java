@@ -62,78 +62,75 @@ public class Sistema {
     System.out.print("Fornecedor: ");
     String fornecedor_nome = scanner.nextLine();
 
-    try {
-      Produto produto;
-      switch (tipo) {
-        // Produto Perecível
-        case 1:
-          System.out.print("Data de validade (AAAA-MM-DD): ");
-          LocalDate dataValidade = LocalDate.parse(scanner.nextLine());
 
-          System.out.print("Precisa de refrigeração? (true/false): ");
-          boolean refrigeracao = Boolean.parseBoolean(scanner.nextLine());
+    Produto produto;
+    switch (tipo) {
+      // Produto Perecível
+      case 1:
+        System.out.print("Data de validade (AAAA-MM-DD): ");
+        LocalDate dataValidade = LocalDate.parse(scanner.nextLine());
 
-          produto = new ProdutoPerecivel(nome, id, preco, dataValidade, refrigeracao);
-          break;
-        // Produto Eletrônico
-        case 2:
-          System.out.print("Meses de garantia: ");
-          int garantia = Integer.parseInt(scanner.nextLine());
+        System.out.print("Precisa de refrigeração? (true/false): ");
+        boolean refrigeracao = Boolean.parseBoolean(scanner.nextLine());
 
-          System.out.print("Tensão: ");
-          String tensao = scanner.nextLine();
+        produto = new ProdutoPerecivel(nome, id, preco, dataValidade, refrigeracao);
+        break;
+      // Produto Eletrônico
+      case 2:
+        System.out.print("Meses de garantia: ");
+        int garantia = Integer.parseInt(scanner.nextLine());
 
-          produto = new ProdutoEletronico(nome, id, preco, garantia, tensao);
-          break;
-        // Bebida
-        case 3:
-          System.out.print("Volume em litros: ");
-          double litros = Double.parseDouble(scanner.nextLine());
+        System.out.print("Tensão: ");
+        String tensao = scanner.nextLine();
 
-          System.out.print("É alcoólica? (true/false): ");
-          boolean alcoolica = Boolean.parseBoolean(scanner.nextLine());
+        produto = new ProdutoEletronico(nome, id, preco, garantia, tensao);
+        break;
+      // Bebida
+      case 3:
+        System.out.print("Volume em litros: ");
+        double litros = Double.parseDouble(scanner.nextLine());
 
-          produto = new ProdutoBebida(nome, id, preco, litros, alcoolica);
-          break;
-        // Nenhum tipo encontrado
-        default:
-          throw new IllegalArgumentException("Tipo inválido");
-      }
+        System.out.print("É alcoólica? (true/false): ");
+        boolean alcoolica = Boolean.parseBoolean(scanner.nextLine());
 
-      // Adicionando fornecedor ao produto
-      // Verifica se o fornecedor foi adicionado
-      boolean fornecedorAdicionado = false;
-      // Percorre o HashSet fornecedores de Supermercado
-      for (Fornecedor fornecedor : superMercado.getFornecedores()) {
-        // Compara pelo nome
-        if (fornecedor.getNome().equals(fornecedor_nome)) {
-          // Adiciona o fornecedor ao produto
-          produto.addFornecedor(fornecedor);
-          fornecedorAdicionado = true;
-        }
-      }
-
-      // Verifica se o fornecedor foi adicionado
-      if (!fornecedorAdicionado) {
-        throw new MercadoExceptionChecked("Fornecedor não encontrado");
-      }
-
-      // Verifica se o fornecedor foi adicionado
-      for (Fornecedor fornecedor : superMercado.getFornecedores()) {
-        // Compara pelo nome
-        if (fornecedor.getNome().equals(fornecedor_nome)) {
-          // Adiciona o fornecedor ao produto
-          fornecedor.addProduto(produto);
-        }
-      }
-
-      // Adicionando o produto ao Supermercado
-      superMercado.addProduto(produto);
-
-      System.out.println("\nProduto adicionado com sucesso!");
-    } catch (Exception e) {
-      throw new MercadoExceptionChecked("\nErro ao adicionar produto: " + e.getMessage());
+        produto = new ProdutoBebida(nome, id, preco, litros, alcoolica);
+        break;
+      // Nenhum tipo encontrado
+      default:
+        throw new IllegalArgumentException("Tipo inválido");
     }
+
+    // Adicionando fornecedor ao produto
+    // Verifica se o fornecedor foi adicionado
+    boolean fornecedorAdicionado = false;
+    // Percorre o HashSet fornecedores de Supermercado
+    for (Fornecedor fornecedor : superMercado.getFornecedores()) {
+      // Compara pelo nome
+      if (fornecedor.getNome().equals(fornecedor_nome)) {
+        // Adiciona o fornecedor ao produto
+        produto.addFornecedor(fornecedor);
+        fornecedorAdicionado = true;
+      }
+    }
+
+    // Verifica se o fornecedor foi adicionado
+    if (!fornecedorAdicionado) {
+      throw new MercadoExceptionChecked("Fornecedor não encontrado");
+    }
+
+    // Verifica se o fornecedor foi adicionado
+    for (Fornecedor fornecedor : superMercado.getFornecedores()) {
+      // Compara pelo nome
+      if (fornecedor.getNome().equals(fornecedor_nome)) {
+        // Adiciona o fornecedor ao produto
+        fornecedor.addProduto(produto);
+      }
+    }
+
+    // Adicionando o produto ao Supermercado
+    superMercado.addProduto(produto);
+
+    System.out.println("\nProduto adicionado com sucesso!");
   }
 
   public static void addFornecedor() throws MercadoExceptionChecked {
