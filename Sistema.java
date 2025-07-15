@@ -2,10 +2,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import exceptions.DadosInvalidosException;
-import exceptions.ElementoNaoEncontradoException;
-import exceptions.OperacaoInvalidaException;
-
 public class Sistema {
   // Supermercado e Sacanner estático que todos os métodos irão usar
   private static SuperMercado superMercado;
@@ -15,8 +11,7 @@ public class Sistema {
   public static void criarSuperMercado() {
     // Verifica se o Supermercado já foi cadastrado
     if (superMercado != null) {
-      System.out.println("erro: Supermercado já cadastrado");
-      return;
+      throw new MercadoExceptionChecked("Erro: Supermercado já cadastrado");
     }
 
     // Lê entradas
@@ -36,7 +31,7 @@ public class Sistema {
   }
 
   // Adicionar Produto
-  public static void addProduto() throws MercadoExceptionChecked{
+  public static void addProduto() throws MercadoExceptionChecked {
     // Verificando se o Supermercado foi instanciado
     if (superMercado == null) {
       throw new MercadoExceptionChecked("Crie um Super Mercado primeiro");
@@ -120,8 +115,7 @@ public class Sistema {
 
       // Verifica se o fornecedor foi adicionado
       if (!fornecedorAdicionado) {
-        System.out.println("Fornecedor não encontrado");
-        return;
+        throw new MercadoExceptionChecked("Fornecedor não encontrado");
       }
 
       // Verifica se o fornecedor foi adicionado
@@ -138,13 +132,13 @@ public class Sistema {
 
       System.out.println("\nProduto adicionado com sucesso!");
     } catch (Exception e) {
-      System.out.println("\nErro ao adicionar produto: " + e.getMessage());
+      throw new MercadoExceptionChecked("\nErro ao adicionar produto: " + e.getMessage());
     }
   }
 
-  public static void addFornecedor() throws OperacaoInvalidaException {
+  public static void addFornecedor() throws MercadoExceptionChecked {
     if (superMercado == null) {
-      throw new OperacaoInvalidaException("Super Mercado não criado");
+      throw new MercadoExceptionChecked("Super Mercado não criado");
     }
 
     System.out.println("\n=== ADICIONAR FORNECEDOR ===");
@@ -188,14 +182,13 @@ public class Sistema {
       superMercado.addFuncionario(funcionario);
       System.out.println("\nFuncionário adicionado com sucesso!");
     } catch (Exception e) {
-      System.out.println("\nErro ao adicionar funcionário: " + e.getMessage());
+      throw new MercadoExceptionChecked("\nErro ao adicionar funcionário: " + e.getMessage());
     }
   }
 
   public static void addPromocao() {
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro!");
-      return;
+      throw new MercadoExceptionChecked("Super Mercado não criado");
     }
 
     System.out.println("\n=== ADICIONAR PROMOÇÃO ===");
@@ -213,15 +206,14 @@ public class Sistema {
       superMercado.addPromocao(promocao);
       System.out.println("\nPromoção adicionada com sucesso!");
     } catch (Exception e) {
-      System.out.println("\nErro ao adicionar promoção: " + e.getMessage());
+      throw new MercadoExceptionChecked("\nErro ao adicionar promoção: " + e.getMessage());
     }
   }
 
   public static void removerProduto() {
     // Verifica se o Supermercado foi instanciado
     if (superMercado == null) {
-      System.out.println("\nErro: Crie um Super Mercado primeiro!");
-      return;
+      throw new MercadoExceptionChecked("Super Mercado não criado");
     }
 
     // Verifica se tem produtos no estoque
@@ -237,6 +229,11 @@ public class Sistema {
     System.out.print("Digite o ID do produto a ser removido: ");
     String id = scanner.nextLine();
 
+    // Verificando se o produto existe
+    if (superMercado.getProdutos().isEmpty()) {
+      throw new MercadoExceptionChecked("Esse supermercado nao possui nenhum produto cadastrado.");
+    }
+
     // Percorre o ArrayList de produtos procurando pelo produto
     for (Produto produto : superMercado.getProdutos()) {
       // Compara o produto pelo ID
@@ -247,7 +244,7 @@ public class Sistema {
         return;
       }
     }
-    System.out.println("Produto não encontrado");
+    throw new MercadoExceptionChecked("Produto não encontrado.");
   }
 
   public static void editarProdutosFornecedor() {
@@ -277,12 +274,12 @@ public class Sistema {
           f.getProdutos().remove(produtoParaRemover);
           System.out.println("\nProduto removido com sucesso!");
         } else {
-          System.out.println("\nProduto não encontrado!");
+          throw new MercadoExceptionChecked("\nProduto não encontrado!");
         }
         return;
       }
     }
-    System.out.println("\nFornecedor nao encontrado!");
+    throw new MercadoExceptionChecked("\nFornecedor nao encontrado!");
   }
 
   public static void removerFornecedor() {
@@ -297,7 +294,7 @@ public class Sistema {
         return;
       }
     }
-    System.out.println("\nFornecedor não encontrado!");
+    throw new MercadoExceptionChecked("\nFornecedor não encontrado!");
   }
 
   public static void removerFuncionario() {
@@ -312,7 +309,7 @@ public class Sistema {
         return;
       }
     }
-    System.out.println("\nFuncionário não encontrado!");
+    throw new MercadoExceptionChecked("\nFuncionário não encontrado!");
   }
 
   public static void removerPromocao() {
@@ -327,7 +324,7 @@ public class Sistema {
         return;
       }
     }
-    System.out.println("\nPromoção não encontrada!");
+    throw new MercadoExceptionChecked("\nPromoção não encontrada!");
   }
 
   public static void exibirEstoque() {
@@ -337,7 +334,7 @@ public class Sistema {
     }
     // Verifica se tem produtos no estoque
     else if (superMercado.getProdutos().isEmpty()) {
-      System.out.println("Nenhum produto cadastrado.");
+      throw new MercadoExceptionChecked("Nenhum produto cadastrado.");
     } else {
       System.out.println("\n=== ESTOQUE ===");
       // Percorre o ArrayList de produtos exibindo suas informações
@@ -351,7 +348,7 @@ public class Sistema {
   public static void exibirFornecedores() {
     System.out.println("\n=== FORNECEDORES ===");
     if (superMercado.getFornecedores().isEmpty()) {
-      System.out.println("Nenhum fornecedor cadastrado.");
+      throw new MercadoExceptionChecked("Nenhum fornecedor cadastrado.");
     } else {
       for (Fornecedor f : superMercado.getFornecedores()) {
         System.out.println(f.getNome());
@@ -362,7 +359,7 @@ public class Sistema {
   public static void exibirFuncionarios() {
     System.out.println("\n=== FUNCIONÁRIOS ===");
     if (superMercado.getFuncionarios().isEmpty()) {
-      System.out.println("Nenhum funcionário cadastrado.");
+      throw new MercadoExceptionChecked("Nenhum funcionário cadastrado.");
     } else {
       for (Funcionario f : superMercado.getFuncionarios()) {
         System.out.println(f.getNome() + " - " + f.getFuncao());
@@ -373,7 +370,7 @@ public class Sistema {
   public static void exibirPromocoes() {
     System.out.println("\n=== PROMOÇÕES ===");
     if (superMercado.getPromocoes().isEmpty()) {
-      System.out.println("Nenhuma promoção cadastrada.");
+      throw new MercadoExceptionChecked("Nenhuma promoção cadastrada.");
     } else {
       for (Promocao p : superMercado.getPromocoes()) {
         p.exibirInformacoes();
@@ -389,19 +386,15 @@ public class Sistema {
       System.out.println((i++) + " - " + promocao.getTipo());
     }
     String tipo = scanner.nextLine();
-    boolean encontrado = false;
 
     for (Promocao p : superMercado.getPromocoes()) {
       if (p.getTipo().equalsIgnoreCase(tipo)) {
         p.setAtivo(!p.getAtivo());
         System.out.println("\nPromoção " + (p.getAtivo() ? "ativada" : "desativada") + " com sucesso!");
-        encontrado = true;
         return;
       }
     }
-    if (!encontrado) {
-      System.out.println("Promoção não encontrada!");
-    }
+    throw new MercadoExceptionChecked("Promoção não encontrada!");
   }
 
   public static void procurarProduto() {
