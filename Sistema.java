@@ -215,8 +215,7 @@ public class Sistema {
 
     // Verifica se tem produtos no estoque
     else if (superMercado.getProdutos().isEmpty()) {
-      System.out.println("Nenhum produto cadastrado.");
-      return;
+      throw new MercadoExceptionChecked("Nenhum produto cadastrado.");
     }
 
     // Removendo o produto
@@ -225,11 +224,6 @@ public class Sistema {
     // Lendo id
     System.out.print("Digite o ID do produto a ser removido: ");
     String id = scanner.nextLine();
-
-    // Verificando se o produto existe
-    if (superMercado.getProdutos().isEmpty()) {
-      throw new MercadoExceptionChecked("Esse supermercado nao possui nenhum produto cadastrado.");
-    }
 
     // Percorre o ArrayList de produtos procurando pelo produto
     for (Produto produto : superMercado.getProdutos()) {
